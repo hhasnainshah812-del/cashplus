@@ -1069,10 +1069,42 @@
             toast.className = "bg-cyan-400 text-black text-xs font-bold px-4 py-3 rounded-xl shadow-2xl text-center mb-2 toast-anim border border-black/20";
             toast.innerText = msg;
                 container.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
+            setTimeout(() => toast.remove(), 3000);
     }
-    </script>
-    <script src="//code.tidio.co/jpnxmr8zkfjówj66ljqk8fipxclimyia.js" async></script>
-    </body>
-    </html>
-    
+</script>
+
+<!-- Yahin niche apna Firebase wala script paste kar dein -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+  import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBpGpCAqkkxk7-2SGRgNF3Yzb0L0oRArGc",
+    authDomain: "cashplus-a05af.firebaseapp.com",
+    projectId: "cashplus-a05af",
+    storageBucket: "cashplus-a05af.firebasestorage.app",
+    messagingSenderId: "24067721136",
+    appId: "1:24067721136:web:60c2571763dbb029f2b875",
+    measurementId: "G-X78Q08HEFE"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  window.saveRequestToCloud = function(reqId, reqData) {
+    set(ref(db, 'requests/' + reqId), reqData);
+  };
+
+  window.listenAllRequests = function(callback) {
+    onValue(ref(db, 'requests/'), (snapshot) => {
+      callback(snapshot.val());
+    });
+  };
+
+  window.updateRequestStatus = function(reqId, newStatus) {
+    update(ref(db, 'requests/' + reqId), { status: newStatus });
+  };
+</script>
+
+</body>
+</html>
