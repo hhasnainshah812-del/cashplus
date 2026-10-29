@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Plus - Earn Daily</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#030305',
+                        goldPrimary: '#00f2fe',
+                        goldDark: '#4facfe',
+                        textLight: '#ffffff',
+                        textMuted: '#94a3b8',
+                        greenWin: '#00e676',
+                        redLoss: '#ff3d71'
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #030305; color: #ffffff; user-select: none; -webkit-tap-highlight-color: transparent; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #030305; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        
+        .gold-btn { 
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); 
+            color: #000000; 
+            font-weight: 800; 
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
+            transition: all 0.3s ease;
+        }
+        .gold-btn:active { transform: scale(0.96); }
+
+        .vip-card {
+            background: linear-gradient(145deg, rgba(20, 20, 28, 0.95), rgba(10, 10, 15, 0.98));
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .vip-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(to bottom, #00f2fe, #4facfe);
+        }
+
+        @keyframes toastSlide { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .toast-anim { animation: toastSlide 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes bounceSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .gift-bounce { animation: bounceSlow 2s infinite ease-in-out; }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col items-center justify-start pb-20">
+
+    <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-xs px-2 pointer-events-none"></div>
+
+    <div class="w-full max-w-md min-h-screen flex flex-col bg-darkBg border-x border-slate-800/80 shadow-2xl relative overflow-hidden">
+
+        <!-- REGISTER SCREEN -->
+        <div id="screen-register" class="flex-1 flex flex-col justify-between p-6 bg-darkBg z-30">
+            <div class="text-center pt-6">
+                <div class="inline-flex flex-col items-center justify-center w-24 h-24 rounded-full bg-slate-900 border-2 border-cyan-400 mb-3 shadow-xl shadow-cyan-500/20 p-2">
+                    <div class="flex items-center space-x-1 text-cyan-400 mb-0.5">
+                        <i class="fa-solid fa-coins text-sm"></i>
+                        <i class="fa-solid fa-arrow-trend-up text-base"></i>
+                    </div>
+                    <span class="text-[11px] font-black text-white tracking-tighter uppercase leading-none">CASH PLUS</span>
+                    <span class="text-[8px] font-bold text-cyan-400 tracking-widest mt-0.5">EARN DAILY</span>
+                </div>
+                <h1 class="text-xl font-black text-white tracking-wide">Cash Plus</h1>
+                <p class="text-xs text-textMuted mt-0.5">Pakistan Ka Trusted Platform (Since 2011)</p>
+            </div>
+
+            <div class="space-y-3.5 my-auto">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-cyan-400 text-sm"><i class="fa-solid fa-mobile-screen-button"></i></span>
+                    <input type="text" id="regPhone" placeholder="Mobile Number (11 Digits)" maxlength="11" class="w-full bg-slate-900/80 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-cyan-400 shadow-inner">
+                </div>
+
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-cyan-400 text-sm"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" id="regPass" placeholder="Password (Min 8 Characters)" class="w-full bg-slate-900/80 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-cyan-400 shadow-inner">
+                </div>
+
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-cyan-400 text-sm"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" id="regConfirmPass" placeholder="Password Dobara Likhein" class="w-full bg-slate-900/80 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-cyan-400 shadow-inner">
+                </div>
+
+                <div class="flex items-center justify-between text-xs text-textMuted pt-1">
+                    <span>Pehle se account hai?</span>
+                    <button onclick="showScreen('login')" class="text-cyan-400 font-bold hover:underline">Login Karein</button>
+                </div>
+
+                <button onclick="handleRegister()" class="w-full py-3.5 rounded-full gold-btn font-extrabold text-xs tracking-wider transition mt-2">
+                    Account Banayein
+                </button>
+            </div>
+            <div class="text-center text-[11px] text-textMuted pb-2">Pakistan's Most Trusted Platform</div>
+        </div>
+
+        <!-- LOGIN SCREEN -->
+        <div id="screen-login" class="hidden flex-1 flex flex-col justify-between p-6 bg-darkBg z-30">
+            <div class="text-center pt-6">
+                <div class="inline-flex flex-col items-center justify-center w-24 h-24 rounded-full bg-slate-900 border-2 border-cyan-400 mb-3 shadow-xl shadow-cyan-500/20 p-2">
+                    <div class="flex items-center space-x-1 text-cyan-400 mb-0.5">
+                        <i class="fa-solid fa-coins text-sm"></i>
+                        <i class="fa-solid fa-arrow-trend-up text-base"></i>
+                    </div>
+                    <span class="text-[11px] font-black text-white tracking-tighter uppercase leading-none">CASH PLUS</span>
+                    <span class="text-[8px] font-bold text-cyan-400 tracking-widest mt-0.5">EARN DAILY</span>
+                </div>
+                <h1 class="text-xl font-black text-white tracking-wide">Cash Plus</h1>
+                <p class="text-xs text-textMuted mt-0.5">Apne account mein Login karein</p>
+            </div>
+
+            <div class="space-y-4 my-auto">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-cyan-400 text-sm"><i class="fa-solid fa-mobile-screen-button"></i></span>
+                    <input type="text" id="loginPhone" value="" placeholder="Mobile Number (11 Digits)" maxlength="11" class="w-full bg-slate-900/80 border border-slate-800 rounded-xl py-3.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-cyan-400 shadow-inner">
+                </div>
+
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-cyan-400 text-sm"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" id="loginPass" value="" placeholder="Password (Min 8 Characters)" class="w-full bg-slate-900/80 border border-slate-800 rounded-xl py-3.5 pl-10 pr-10 text-sm text-white focus:outline-none focus:border-cyan-400 shadow-inner">
+                </div>
+
+                <div class="flex items-center justify-between text-xs text-textMuted pt-1">
+                    <span>Account nahi hai?</span>
+                    <button onclick="showScreen('register')" class="text-cyan-400 font-semibold hover:underline">Register Karein</button>
+                </div>
+
+                <button onclick="handleLogin()" class="w-full py-3.5 rounded-full gold-btn font-extrabold text-sm tracking-wider transition mt-4">
+                    Abhi Login Karein
+                </button>
+                
+                <button onclick="promptAdminLogin()" class="w-full py-2.5 rounded-xl bg-slate-900/80 border border-cyan-400/40 text-cyan-400 font-bold text-xs mt-2">
+                    <i class="fa-solid fa-user-shield mr-1"></i> Admin Panel (Secret Login)
+                </button>
+            </div>
+            <div class="text-center text-[11px] text-textMuted pb-4">Pakistan's Most Trusted Platform</div>
+        </div>
+
+        <!-- MAIN HEADER -->
+        <header id="mainHeader" class="hidden sticky top-0 z-20 bg-darkBg/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <div class="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-cyan-400 font-extrabold text-xs border border-cyan-400">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-black tracking-wider text-white block">Cash Plus</span>
+                    <span id="headerUserPhone" class="text-[10px] text-textMuted font-mono">---</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span id="userLevelBadge" class="text-[10px] bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 px-2.5 py-0.5 rounded-full font-bold">VIP F0</span>
+                <button onclick="logoutUser()" class="w-7 h-7 rounded-lg bg-slate-900 border border-slate-800 text-textMuted hover:text-redLoss flex items-center justify-center text-xs"><i class="fa-solid fa-power-off"></i></button>
+            </div>
+        </header>
+
+        <!-- MAIN TABS -->
+        <main id="mainAppContent" class="hidden flex-1 p-4 space-y-4 overflow-y-auto">
+
+            <!-- TAB 1: HOME -->
+            <div id="tab-home" class="space-y-4">
+                <div class="bg-gradient-to-r from-cyan-400 via-teal-400 to-blue-500 rounded-2xl p-4 text-black shadow-xl shadow-cyan-500/20 relative overflow-hidden">
+                    <div class="flex justify-between items-start relative z-10">
+                        <div>
+                            <span class="text-[11px] font-bold text-black/85 uppercase tracking-wider block">Mawjooda Balance</span>
+                            <div class="text-2xl font-black font-mono mt-0.5">Rs <span id="homeWalletBalance">0</span></div>
+                        </div>
+                        <div class="flex space-x-1.5">
+                            <button onclick="openModal('recharge')" class="bg-black text-cyan-400 text-xs px-3 py-1.5 rounded-xl font-bold">Deposit</button>
+                            <button onclick="openModal('withdraw')" class="bg-black/20 text-black text-xs px-3 py-1.5 rounded-xl font-bold border border-black/30">Withdraw</button>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-black/15 flex items-center justify-between text-xs relative z-10">
+                        <div>
+                            <span class="text-[10px] font-bold text-black/85 block">Rozana Ke Tasks:</span>
+                            <span class="font-extrabold" id="dailyTaskCounter">0 / 1 Mukammal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GIFT BOX BANNER & INVITE BONUS -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div onclick="openGiftBox()" class="vip-card p-3 rounded-2xl flex items-center space-x-3 cursor-pointer gift-bounce">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-xl border border-cyan-500/30">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-extrabold text-white block">Gift Box Code</span>
+                            <span class="text-[9px] text-cyan-400 font-bold">Redeem Code</span>
+                        </div>
+                    </div>
+
+                    <div onclick="openInviteBonusModal()" class="vip-card p-3 rounded-2xl flex items-center space-x-3 cursor-pointer">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 text-xl border border-blue-500/30">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-extrabold text-white block">Invite Friend</span>
+                            <span class="text-[9px] text-blue-400 font-bold">Get Rs 50 Bonus</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TASK HALL -->
+                <div class="space-y-3">
+                    <h2 class="text-xs font-black uppercase text-cyan-400 tracking-wider"><i class="fa-solid fa-list-check"></i> Task Hall (Choose Platform)</h2>
+                    <div id="taskHallList" class="space-y-2.5">
+                        <div class="vip-card p-3 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center space-x-2.5">
+                                <div class="w-9 h-9 rounded-lg bg-black flex items-center justify-center text-pink-500 text-base border border-slate-800">
+                                    <i class="fa-brands fa-tiktok"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">TikTok Video Task</span>
+                                    <span class="text-[10px] text-cyan-400 font-mono">Reward: Active VIP Required</span>
+                                </div>
+                            </div>
+                            <button onclick="completePlatformTask('TikTok')" class="gold-btn px-3 py-1.5 rounded-lg text-[11px] font-bold">Do Task</button>
+                        </div>
+
+                        <div class="vip-card p-3 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center space-x-2.5">
+                                <div class="w-9 h-9 rounded-lg bg-red-600/20 flex items-center justify-center text-red-500 text-base border border-slate-800">
+                                    <i class="fa-brands fa-youtube"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">YouTube Video Task</span>
+                                    <span class="text-[10px] text-cyan-400 font-mono">Reward: Active VIP Required</span>
+                                </div>
+                            </div>
+                            <button onclick="completePlatformTask('YouTube')" class="gold-btn px-3 py-1.5 rounded-lg text-[11px] font-bold">Do Task</button>
+                        </div>
+
+                        <div class="vip-card p-3 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center space-x-2.5">
+                                <div class="w-9 h-9 rounded-lg bg-purple-600/20 flex items-center justify-center text-purple-400 text-base border border-slate-800">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Instagram Reels Task</span>
+                                    <span class="text-[10px] text-cyan-400 font-mono">Reward: Active VIP Required</span>
+                                </div>
+                            </div>
+                            <button onclick="completePlatformTask('Instagram')" class="gold-btn px-3 py-1.5 rounded-lg text-[11px] font-bold">Do Task</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMPANY INTRODUCTION & WHITE PAPER -->
+                <div class="vip-card p-4 rounded-2xl space-y-3 mt-6">
+                    <h3 class="text-xs font-extrabold text-cyan-400 uppercase tracking-wider"><i class="fa-solid fa-shield-halved mr-1"></i> About Cash Plus Company</h3>
+                    <p class="text-[11px] text-textMuted leading-relaxed">
+                        Cash Plus Pakistan mein 2011 se offline services de rahi hai, aur ab 25 October 2026 ko digital online platform launch kiya gaya hai jo 100% trusted aur profit mein hai.
+                    </p>
+                    <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
+                        <span class="text-[10px] text-white font-bold">FBI & SECP Verified White Paper</span>
+                        <button onclick="openWhitePaper()" class="text-xs bg-cyan-400 text-black px-3 py-1.5 rounded-xl font-extrabold shadow-md">View Document</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: ORDERS & HISTORY -->
+            <div id="tab-fund" class="hidden space-y-4">
+                <h2 class="text-sm font-extrabold text-cyan-400 border-b border-slate-800 pb-2"><i class="fa-solid fa-clipboard-list"></i> Order & History Status</h2>
+                <div id="auditOrdersList" class="space-y-2">
+                    <div class="p-6 text-center text-xs text-textMuted vip-card rounded-xl">Koi history record nahi hai.</div>
+                </div>
+            </div>
+
+            <!-- TAB 3: VIP LEVEL -->
+            <div id="tab-vip" class="hidden space-y-4">
+                <div class="vip-card p-4 rounded-2xl text-center bg-gradient-to-r from-slate-900 via-cyan-950/30 to-slate-900 border-cyan-400/40">
+                    <span class="text-[10px] text-cyan-400 font-mono font-bold uppercase tracking-widest">Aapka Level Status</span>
+                    <h2 id="vipCurrentTitle" class="text-base font-black text-white mt-1">Current Status: F0 Starter</h2>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="vip-card p-4 rounded-2xl flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm font-black text-white">VIP Level F0</span>
+                                <span class="text-[9px] bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded font-bold border border-cyan-500/30">STARTER</span>
+                            </div>
+                            <p class="text-xs text-cyan-400 font-semibold mt-1">Price: Rs 300 <span class="text-slate-500">|</span> Daily: <span class="text-green-400">Rs 10</span></p>
+                        </div>
+                        <button onclick="buyVIP('F0', 300, 10, 1)" class="gold-btn text-xs px-4 py-2.5 ro
