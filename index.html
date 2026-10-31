@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Plus - Earn Daily</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#030305',
+                        goldPrimary: '#00f2fe',
+                        goldDark: '#4facfe',
+                        textLight: '#ffffff',
+                        textMuted: '#94a3b8',
+                        greenWin: '#00e676',
+                        redLoss: '#ff3d71'
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #030305; color: #ffffff; user-select: none; -webkit-tap-highlight-color: transparent; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #030305; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        
+        .gold-btn { 
+            background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); 
+            color: #000000; 
+            font-weight: 800; 
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
+            transition: all 0.3s ease;
+        }
+        .gold-btn:active { transform: scale(0.96); }
+
+        .vip-card {
+            background: linear-gradient(145deg, rgba(20, 20, 28, 0.95), rgba(10, 10, 15, 0.98));
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .vip-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: linear-gradient(to bottom, #00f2fe, #4facfe);
+        }
+
+        @keyframes toastSlide { from { transform: translateY(-100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .toast-anim { animation: toastSlide 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes bounceSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .gift-bounce { animation: bounceSlow 2s infinite ease-in-out; }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col items-center justify-start pb-20">
+
+    <div id="toastContainer" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-full max-w-xs px-2 pointer-events-none"></div>
+
+    <div class="w-full max-w-md min-h-screen flex flex-col bg-darkBg border-x border-slate-800/80 shadow-2xl relative overflow-hidden">
+
+        <!-- REGISTER SCREEN -->
+        <div id="screen-register" class="flex-1 flex flex-col justify-between p-6 bg-darkBg z-30">
+            <div class="text-center pt-6">
+                <div class="inline-flex flex-col items-center justify-center w-24 h-24 rounded-full bg-slate-900 border-2 border-cyan-400 mb-3 shadow-xl shadow-cyan-500/20 p-2">
+                    <div class="flex items-center space-x-1 text-cyan-400 mb-0.5">
+                        <i class="fa-solid fa-coins text-sm"></i>
+                        <i class="fa-solid fa-arrow-trend-up text-base"></i>
+                    </div>
+                    <span class="text-[11px] font-black text-white tracking-tighter uppercase leading-none">CASH PLUS</span>
+                    <span class="text-[8px] font-bold text-cyan-400 tracking-widest mt-0.5">EARN DAILY</span>
+                </div>
+                <h1 class="text-xl font-black text-white tracking-wide">Cash Plus</h1>
+                <p class="text-xs text-textMuted mt-0.5">Pakistan Ka Trusted Platform (Since 2011)</p>
+            </div>
+
+            <div class="space-y-3.5 my-auto">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-cyan-400 text-sm"><i class="fa-solid fa-mobile-screen-button"></i></span>
+                    <input type="text" id="regPhone" placeholder="Mobile Number (11 Digits)" maxlength="11" class="w-full bg-slate-900/80 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-cyan-400 shadow-inner">
+                </div>
+
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-cyan-400 text-sm"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" id="regPass" placeholder="Password (Min 8 Characters)" class="w-full bg-slate-900/80 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-cyan-400 shadow-inner">
+                </div>
+
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-cyan-400 text-sm"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" id="regConfirmPass" placeholder="Password Dobara Likhein" class="w-full bg-slate-900/80 border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-xs text-white focus:outline-none focus:border-cyan-400 shadow-inner">
+                </div>
+
+                <div class="flex items-center justify-between text-xs text-textMuted pt-1">
+                    <span>Pehle se account hai?</span>
+                    <button onclick="showScreen('login')" class="text-cyan-400 font-bold hover:underline">Login Karein</button>
+                </div>
+
+                <button onclick="handleRegister()" class="w-full py-3.5 rounded-full gold-btn font-extrabold text-xs tracking-wider transition mt-2">
+                    Account Banayein
+                </button>
+            </div>
+            <div class="text-center text-[11px] text-textMuted pb-2">Pakistan's Most Trusted Platform</div>
+        </div>
+
+        <!-- LOGIN SCREEN -->
+        <div id="screen-login" class="hidden flex-1 flex flex-col justify-between p-6 bg-darkBg z-30">
+            <div class="text-center pt-6">
+                <div class="inline-flex flex-col items-center justify-center w-24 h-24 rounded-full bg-slate-900 border-2 border-cyan-400 mb-3 shadow-xl shadow-cyan-500/20 p-2">
+                    <div class="flex items-center space-x-1 text-cyan-400 mb-0.5">
+                        <i class="fa-solid fa-coins text-sm"></i>
+                        <i class="fa-solid fa-arrow-trend-up text-base"></i>
+                    </div>
+                    <span class="text-[11px] font-black text-white tracking-tighter uppercase leading-none">CASH PLUS</span>
+                    <span class="text-[8px] font-bold text-cyan-400 tracking-widest mt-0.5">EARN DAILY</span>
+                </div>
+                <h1 class="text-xl font-black text-white tracking-wide">Cash Plus</h1>
+                <p class="text-xs text-textMuted mt-0.5">Apne account mein Login karein</p>
+            </div>
+
+            <div class="space-y-4 my-auto">
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-cyan-400 text-sm"><i class="fa-solid fa-mobile-screen-button"></i></span>
+                    <input type="text" id="loginPhone" value="" placeholder="Mobile Number (11 Digits)" maxlength="11" class="w-full bg-slate-900/80 border border-slate-800 rounded-xl py-3.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-cyan-400 shadow-inner">
+                </div>
+
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-cyan-400 text-sm"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" id="loginPass" value="" placeholder="Password (Min 8 Characters)" class="w-full bg-slate-900/80 border border-slate-800 rounded-xl py-3.5 pl-10 pr-10 text-sm text-white focus:outline-none focus:border-cyan-400 shadow-inner">
+                </div>
+
+                <div class="flex items-center justify-between text-xs text-textMuted pt-1">
+                    <span>Account nahi hai?</span>
+                    <button onclick="showScreen('register')" class="text-cyan-400 font-semibold hover:underline">Register Karein</button>
+                </div>
+
+                <button onclick="handleLogin()" class="w-full py-3.5 rounded-full gold-btn font-extrabold text-sm tracking-wider transition mt-4">
+                    Abhi Login Karein
+                </button>
+                
+                <button onclick="promptAdminLogin()" class="w-full py-2.5 rounded-xl bg-slate-900/80 border border-cyan-400/40 text-cyan-400 font-bold text-xs mt-2">
+                    <i class="fa-solid fa-user-shield mr-1"></i> Admin Panel (Secret Login)
+                </button>
+            </div>
+            <div class="text-center text-[11px] text-textMuted pb-4">Pakistan's Most Trusted Platform</div>
+        </div>
+
+        <!-- MAIN HEADER -->
+        <header id="mainHeader" class="hidden sticky top-0 z-20 bg-darkBg/95 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <div class="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-cyan-400 font-extrabold text-xs border border-cyan-400">
+                    <i class="fa-solid fa-coins"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-black tracking-wider text-white block">Cash Plus</span>
+                    <span id="headerUserPhone" class="text-[10px] text-textMuted font-mono">---</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span id="userLevelBadge" class="text-[10px] bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 px-2.5 py-0.5 rounded-full font-bold">VIP F0</span>
+                <button onclick="logoutUser()" class="w-7 h-7 rounded-lg bg-slate-900 border border-slate-800 text-textMuted hover:text-redLoss flex items-center justify-center text-xs"><i class="fa-solid fa-power-off"></i></button>
+            </div>
+        </header>
+
+        <!-- MAIN TABS -->
+        <main id="mainAppContent" class="hidden flex-1 p-4 space-y-4 overflow-y-auto">
+
+            <!-- TAB 1: HOME -->
+            <div id="tab-home" class="space-y-4">
+                <div class="bg-gradient-to-r from-cyan-400 via-teal-400 to-blue-500 rounded-2xl p-4 text-black shadow-xl shadow-cyan-500/20 relative overflow-hidden">
+                    <div class="flex justify-between items-start relative z-10">
+                        <div>
+                            <span class="text-[11px] font-bold text-black/85 uppercase tracking-wider block">Mawjooda Balance</span>
+                            <div class="text-2xl font-black font-mono mt-0.5">Rs <span id="homeWalletBalance">0</span></div>
+                        </div>
+                        <div class="flex space-x-1.5">
+                            <button onclick="openModal('recharge')" class="bg-black text-cyan-400 text-xs px-3 py-1.5 rounded-xl font-bold">Deposit</button>
+                            <button onclick="openModal('withdraw')" class="bg-black/20 text-black text-xs px-3 py-1.5 rounded-xl font-bold border border-black/30">Withdraw</button>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-black/15 flex items-center justify-between text-xs relative z-10">
+                        <div>
+                            <span class="text-[10px] font-bold text-black/85 block">Rozana Ke Tasks:</span>
+                            <span class="font-extrabold" id="dailyTaskCounter">0 / 1 Mukammal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GIFT BOX BANNER & INVITE BONUS -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div onclick="openGiftBox()" class="vip-card p-3 rounded-2xl flex items-center space-x-3 cursor-pointer gift-bounce">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-xl border border-cyan-500/30">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-extrabold text-white block">Gift Box Code</span>
+                            <span class="text-[9px] text-cyan-400 font-bold">Redeem Code</span>
+                        </div>
+                    </div>
+
+                    <div onclick="openInviteBonusModal()" class="vip-card p-3 rounded-2xl flex items-center space-x-3 cursor-pointer">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400 text-xl border border-blue-500/30">
+                            <i class="fa-solid fa-user-plus"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-extrabold text-white block">Invite Friend</span>
+                            <span class="text-[9px] text-blue-400 font-bold">Get Rs 50 Bonus</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TASK HALL -->
+                <div class="space-y-3">
+                    <h2 class="text-xs font-black uppercase text-cyan-400 tracking-wider"><i class="fa-solid fa-list-check"></i> Task Hall (Choose Platform)</h2>
+                    <div id="taskHallList" class="space-y-2.5">
+                        <div class="vip-card p-3 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center space-x-2.5">
+                                <div class="w-9 h-9 rounded-lg bg-black flex items-center justify-center text-pink-500 text-base border border-slate-800">
+                                    <i class="fa-brands fa-tiktok"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">TikTok Video Task</span>
+                                    <span id="taskRewardDesc1" class="text-[10px] text-cyan-400 font-mono">Reward: Active VIP Required</span>
+                                </div>
+                            </div>
+                            <button onclick="completePlatformTask('TikTok')" class="gold-btn px-3 py-1.5 rounded-lg text-[11px] font-bold">Do Task</button>
+                        </div>
+
+                        <div class="vip-card p-3 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center space-x-2.5">
+                                <div class="w-9 h-9 rounded-lg bg-red-600/20 flex items-center justify-center text-red-500 text-base border border-slate-800">
+                                    <i class="fa-brands fa-youtube"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">YouTube Video Task</span>
+                                    <span id="taskRewardDesc2" class="text-[10px] text-cyan-400 font-mono">Reward: Active VIP Required</span>
+                                </div>
+                            </div>
+                            <button onclick="completePlatformTask('YouTube')" class="gold-btn px-3 py-1.5 rounded-lg text-[11px] font-bold">Do Task</button>
+                        </div>
+
+                        <div class="vip-card p-3 rounded-xl flex items-center justify-between">
+                            <div class="flex items-center space-x-2.5">
+                                <div class="w-9 h-9 rounded-lg bg-purple-600/20 flex items-center justify-center text-purple-400 text-base border border-slate-800">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-white block">Instagram Reels Task</span>
+                                    <span id="taskRewardDesc3" class="text-[10px] text-cyan-400 font-mono">Reward: Active VIP Required</span>
+                                </div>
+                            </div>
+                            <button onclick="completePlatformTask('Instagram')" class="gold-btn px-3 py-1.5 rounded-lg text-[11px] font-bold">Do Task</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COMPANY INTRODUCTION & WHITE PAPER -->
+                <div class="vip-card p-4 rounded-2xl space-y-3 mt-6">
+                    <h3 class="text-xs font-extrabold text-cyan-400 uppercase tracking-wider"><i class="fa-solid fa-shield-halved mr-1"></i> About Cash Plus Company</h3>
+                    <p class="text-[11px] text-textMuted leading-relaxed">
+                        Cash Plus Pakistan mein 2011 se offline services de rahi hai, aur ab 25 October 2026 ko digital online platform launch kiya gaya hai jo 100% trusted aur profit mein hai.
+                    </p>
+                    <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
+                        <span class="text-[10px] text-white font-bold">FBI & SECP Verified White Paper</span>
+                        <button onclick="openWhitePaper()" class="text-xs bg-cyan-400 text-black px-3 py-1.5 rounded-xl font-extrabold shadow-md">View Document</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: ORDERS & HISTORY -->
+            <div id="tab-fund" class="hidden space-y-4">
+                <h2 class="text-sm font-extrabold text-cyan-400 border-b border-slate-800 pb-2"><i class="fa-solid fa-clipboard-list"></i> Order & History Status</h2>
+                <div id="auditOrdersList" class="space-y-2">
+                    <div class="p-6 text-center text-xs text-textMuted vip-card rounded-xl">Koi history record nahi hai.</div>
+                </div>
+            </div>
+
+            <!-- TAB 3: VIP LEVEL -->
+            <div id="tab-vip" class="hidden space-y-4">
+                <div class="vip-card p-4 rounded-2xl text-center bg-gradient-to-r from-slate-900 via-cyan-950/30 to-slate-900 border-cyan-400/40">
+                    <span class="text-[10px] text-cyan-400 font-mono font-bold uppercase tracking-widest">Aapka Level Status</span>
+                    <h2 id="vipCurrentTitle" class="text-base font-black text-white mt-1">Current Status: F0 Starter</h2>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="vip-card p-4 rounded-2xl flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm font-black text-white">VIP Level F0</span>
+                                <span class="text-[9px] bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded font-bold border border-cyan-500/30">STARTER</span>
+                            </div>
+                            <p class="text-xs text-cyan-400 font-semibold mt-1">Price: Rs 300 <span class="text-slate-500">|</span> Daily: <span class="text-green-400">Rs 10</span></p>
+                        </div>
+                        <button onclick="buyVIP('F0', 300, 10, 1)" class="gold-btn text-xs px-4 py-2.5 rounded-xl font-bold">Buy Rs 300</button>
+                    </div>
+
+                    <div class="vip-card p-4 rounded-2xl flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm font-black text-white">VIP Level F1</span>
+                                <span class="text-[9px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded font-bold border border-blue-500/30">POPULAR</span>
+                            </div>
+                            <p class="text-xs text-cyan-400 font-semibold mt-1">Price: Rs 600 <span class="text-slate-500">|</span> Daily: <span class="text-green-400">Rs 20</span></p>
+                        </div>
+                        <button onclick="buyVIP('F1', 600, 20, 1)" class="gold-btn text-xs px-4 py-2.5 rounded-xl font-bold">Buy Rs 600</button>
+                    </div>
+
+                    <div class="vip-card p-4 rounded-2xl flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm font-black text-white">VIP Level F2</span>
+                                <span class="text-[9px] bg-teal-500/20 text-teal-400 px-2 py-0.5 rounded font-bold border border-teal-500/30">ADVANCED</span>
+                            </div>
+                            <p class="text-xs text-cyan-400 font-semibold mt-1">Price: Rs 1,000 <span class="text-slate-500">|</span> Daily: <span class="text-green-400">Rs 50</span></p>
+                        </div>
+                        <button onclick="buyVIP('F2', 1000, 50, 1)" class="gold-btn text-xs px-4 py-2.5 rounded-xl font-bold">Buy Rs 1000</button>
+                    </div>
+
+                    <div class="vip-card p-4 rounded-2xl flex items-center justify-between">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm font-black text-white">VIP Level F3</span>
+                                <span class="text-[9px] bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded font-bold border border-purple-500/30">PRO</span>
+                            </div>
+                            <p class="text-xs text-cyan-400 font-semibold mt-1">Price: Rs 2,000 <span class="text-slate-500">|</span> Daily: <span class="text-green-400">Rs 100</span></p>
+                        </div>
+                        <button onclick="buyVIP('F3', 2000, 100, 1)" class="gold-btn text-xs px-4 py-2.5 rounded-xl font-bold">Buy Rs 2000</button>
+                    </div>
+
+                    <div class="vip-card p-4 rounded-2xl flex items-center justify-between border-cyan-400/50 bg-gradient-to-r from-slate-900 to-cyan-950/20">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm font-black text-white">VIP Level F4</span>
+                                <span class="text-[9px] bg-cyan-400 text-black px-2 py-0.5 rounded font-extrabold shadow-sm">EXPERT</span>
+                            </div>
+                            <p class="text-xs text-cyan-400 font-semibold mt-1">Price: Rs 2,500 <span class="text-slate-500">|</span> Daily: <span class="text-green-400">Rs 120</span></p>
+                        </div>
+                        <button onclick="buyVIP('F4', 2500, 120, 1)" class="gold-btn text-xs px-4 py-2.5 rounded-xl font-bold shadow-lg shadow-cyan-500/20">Buy Rs 2500</button>
+                    </div>
+
+                    <div class="vip-card p-4 rounded-2xl flex items-center justify-between border-cyan-400 bg-gradient-to-r from-slate-900 via-cyan-900/20 to-slate-900">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm font-black text-white">VIP Level F5</span>
+                                <span class="text-[9px] bg-gradient-to-r from-cyan-400 to-teal-400 text-black px-2 py-0.5 rounded font-black uppercase shadow-md">ULTIMATE VIP</span>
+                            </div>
+                            <p class="text-xs text-cyan-400 font-semibold mt-1">Price: Rs 3,000 <span class="text-slate-500">|</span> Daily: <span class="text-green-400">Rs 150</span></p>
+                        </div>
+                        <button onclick="buyVIP('F5', 3000, 150, 1)" class="gold-btn text-xs px-4 py-2.5 rounded-xl font-bold shadow-lg shadow-cyan-500/30">Buy Rs 3000</button>
+                    </div>
+
+                    <!-- VIP LEVEL F6 -->
+                    <div class="vip-card p-4 rounded-2xl flex items-center justify-between border-yellow-400 bg-gradient-to-r from-slate-900 via-yellow-950/20 to-slate-900 shadow-xl shadow-yellow-500/10">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm font-black text-white">VIP Level F6</span>
+                                <span class="text-[9px] bg-yellow-400 text-black px-2 py-0.5 rounded font-black uppercase shadow-md">ELITE VIP</span>
+                            </div>
+                            <p class="text-xs text-yellow-400 font-semibold mt-1">Price: Rs 4,000 <span class="text-slate-500">|</span> Daily: <span class="text-green-400">Rs 200</span></p>
+                        </div>
+                        <button onclick="buyVIP('F6', 4000, 200, 1)" class="gold-btn text-xs px-4 py-2.5 rounded-xl font-bold shadow-lg shadow-yellow-500/30">Buy Rs 4000</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: TEAM -->
+            <div id="tab-team" class="hidden space-y-4">
+                <h2 class="text-sm font-extrabold text-cyan-400"><i class="fa-solid fa-users"></i> Team Reports & Invite Bonus</h2>
+                <div class="vip-card p-4 rounded-2xl border-cyan-400/30 space-y-3">
+                    <div class="bg-darkBg p-3 rounded-xl border border-cyan-400/20 text-center">
+                        <span class="text-xs text-textMuted block">Har Invite Par Bonus</span>
+                        <span class="text-xl font-black text-cyan-400 font-mono">Rs 50 Free</span>
+                    </div>
+                    <label class="text-xs font-bold text-white block">Aapka Invite Link</label>
+                    <input type="text" id="userInviteLinkInput" readonly value="" class="w-full bg-darkBg border border-slate-800 text-xs text-cyan-400 font-mono p-2.5 rounded-xl">
+                    <button onclick="copyInviteLink()" class="w-full py-2.5 rounded-xl gold-btn font-bold text-xs">Link Copy Karein</button>
+                </div>
+            </div>
+
+            <!-- TAB 5: USER PROFILE -->
+            <div id="tab-user" class="hidden space-y-5">
+                
+                <div class="vip-card p-6 rounded-3xl text-center relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-900/90 to-darkBg border-cyan-400/40">
+                    <div class="w-20 h-20 rounded-full bg-white border-4 border-cyan-400 text-cyan-600 flex items-center justify-center text-3xl font-black mx-auto mb-3 shadow-xl shadow-cyan-500/30">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                    <h2 id="userProfilePhone" class="text-xl font-black text-white font-mono tracking-wider">03131032801</h2>
+                    <div class="mt-2 inline-flex items-center space-x-1.5 bg-cyan-500/20 border border-cyan-400/50 px-3 py-1 rounded-full">
+                        <i class="fa-solid fa-crown text-cyan-400 text-xs"></i>
+                        <span id="profileLevelText" class="text-xs font-black text-cyan-400 tracking-wide uppercase">VIP F0 Member</span>
+                    </div>
+                </div>
+                
+                <div class="vip-card p-5 rounded-2xl space-y-3.5">
+                    <div class="flex justify-between items-center border-b border-slate-800/80 pb-3">
+                        <span class="text-xs text-textMuted font-medium">Account Number:</span>
+                        <div class="flex items-center space-x-2">
+                            <span id="profilePhoneDisplay" class="text-sm font-mono font-bold text-white">03131032801</span>
+                            <button onclick="toggleMaskPhone()" class="text-cyan-400 hover:text-white p-1"><i id="eyeIcon" class="fa-solid fa-eye-slash text-xs"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center border-b border-slate-800/80 pb-3">
+                        <span class="text-xs text-textMuted font-medium">Registration Date:</span>
+                        <span id="profileRegDate" class="text-xs text-slate-300 font-mono">29/10/2026, 4:02:53 pm</span>
+                    </div>
+
+                    <div class="flex justify-between items-center border-b border-slate-800/80 pb-3">
+                        <span class="text-xs text-textMuted font-medium">Pakistan Offline (Since):</span>
+                        <span class="text-xs text-cyan-400 font-mono font-extrabold">2011 to 2026</span>
+                    </div>
+
+                    <div class="flex justify-between items-center pt-1">
+                        <div>
+                            <span class="text-xs text-textMuted font-medium block">Official Certificate:</span>
+                            <span class="text-[10px] text-greenWin font-bold"><i class="fa-solid fa-circle-check"></i> Government Verified</span>
+                        </div>
+                        <button onclick="openWhitePaper()" class="text-xs bg-cyan-400 text-black px-3 py-2 rounded-xl font-extrabold shadow-lg shadow-cyan-500/20 hover:scale-105 transition">
+                            <i class="fa-solid fa-file-contract mr-1"></i> View License
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Password Change Box -->
+                <div class="vip-card p-5 rounded-2xl space-y-3">
+                    <span class="text-xs text-cyan-400 font-black uppercase tracking-wider block flex items-center">
+                        <i class="fa-solid fa-key mr-2"></i> Password Tabdeel Karein
+                    </span>
+                    <input type="password" id="oldPassInput" placeholder="Purana Password" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-cyan-400">
+                    <input type="password" id="newPassInput" placeholder="Naya Password (Min 8 Characters)" class="w-full bg-slate-900/90 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-cyan-400">
+                    <button onclick="changePassword()" class="w-full py-3 rounded-xl gold-btn font-extrabold text-xs tracking-wider">
+                        Password Update Karein
+                    </button>
+                </div>
+
+                <button onclick="logoutUser()" class="w-full p-3.5 bg-redLoss/10 text-redLoss text-xs font-black rounded-2xl border border-redLoss/30 hover:bg-redLoss/20 transition">
+                    <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout Karein
+                </button>
+            </div>
+
+        </main>
+
+        <!-- WHITE COLOR OFFICIAL REGISTRATION CERTIFICATE PAGE (MODAL) -->
+        <div id="whitePaperModal" class="hidden fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-3">
+            <div class="bg-white text-slate-900 border-4 border-yellow-500 w-full max-w-sm rounded-2xl p-5 space-y-4 shadow-2xl relative overflow-hidden font-sans">
+                
+                <div class="text-center border-b-2 border-slate-200 pb-3 relative">
+                    <div class="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-xl font-black mx-auto mb-1 border-2 border-yellow-500 shadow-md">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h2 class="text-base font-black text-slate-900 uppercase tracking-tight">GOVERNMENT REGISTERED LICENSE</h2>
+                    <p class="text-[9px] text-blue-700 font-bold tracking-widest uppercase">Pakistan Trusted Platform (Since 2011)</p>
+                    <button onclick="closeWhitePaper()" class="absolute top-0 right-0 text-slate-400 hover:text-slate-800 text-lg"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <div class="text-[11px] text-slate-700 space-y-2.5 leading-relaxed bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                    <div class="flex justify-between text-[10px] font-bold text-slate-500 border-b pb-1">
+                        <span>LICENSE NO: CP-2011-2026-PK</span>
+                        <span>STATUS: PROFITABLE</span>
+                    </div>
+                    <p><strong class="text-slate-900">Company Name:</strong> CASH PLUS PAKISTAN</p>
+                    <p><strong class="text-slate-900">History:</strong> Offline in Pakistan since 2011, Digital Online launch on 25 October 2026.</p>
+                    <p class="text-[10px] text-slate-600 italic pt-1">
+                        Yeh platform 100% trusted aur profit mein hai. Tamam user funds secure hain.
+                    </p>
+                </div>
+
+                <div class="flex justify-between items-end pt-2 px-1">
+                    <div class="text-center">
+                        <div class="w-12 h-12 border-2 border-red-600 text-red-600 rounded-full flex flex-col items-center justify-center text-[7px] font-black uppercase rotate-[-12deg] opacity-80">
+                            <span>OFFICIAL</span>
+                            <span>STAMP</span>
+                            <span>TRUSTED</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xs font-script font-bold text-slate-800 border-b border-slate-400 pb-0.5 italic">Pak Registrar</div>
+                        <span class="text-[8px] text-slate-500 block">Authorized Signature</span>
+                    </div>
+                </div>
+
+                <button onclick="closeWhitePaper()" class="w-full py-2.5 rounded-xl bg-slate-900 text-white font-extrabold text-xs shadow-lg">
+                    Certificate Band Karein
+                </button>
+            </div>
+        </div>
+
+        <!-- GIFT BOX MODAL -->
+        <div id="giftBoxModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div class="vip-card border border-cyan-400 w-full max-w-xs rounded-2xl p-4 text-center space-y-3">
+                <div class="w-16 h-16 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-3xl mx-auto gift-bounce border border-cyan-500/30">
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+                <h3 class="text-base font-extrabold text-white">Gift Box Code Redeem</h3>
+                <p class="text-xs text-textMuted">Apna secret gift box code yahan darj karein:</p>
+                <input type="text" id="giftCodeInput" placeholder="Enter Gift Code" class="w-full bg-darkBg border border-slate-800 rounded-xl p-2.5 text-xs text-white uppercase text-center font-mono">
+                <button onclick="claimGiftCode()" class="w-full py-3 rounded-xl gold-btn font-extrabold text-xs">Claim Code</button>
+                <button onclick="closeGiftBoxModal()" class="text-xs text-textMuted underline">Band Karein</button>
+            </div>
+        </div>
+
+        <!-- INVITE BONUS MODAL -->
+        <div id="inviteBonusModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div class="vip-card border border-blue-500 w-full max-w-xs rounded-2xl p-4 text-center space-y-3">
+                <div class="w-16 h-16 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-3xl mx-auto border border-blue-500/30">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+                <h3 class="text-base font-extrabold text-white">Invite Friend Program</h3>
+                <p class="text-xs text-textMuted">Apne doston ko invite karein aur har successful join par Rs 50 instant bonus payein!</p>
+                <button onclick="closeInviteBonusModal()" class="w-full py-3 rounded-xl bg-blue-600 text-white font-extrabold text-xs">Link Share Karein</button>
+            </div>
+        </div>
+
+        <!-- FLOATING LIVE CHAT WIDGET BUTTON -->
+        <button onclick="toggleLiveChat()" class="fixed bottom-16 right-4 z-50 w-12 h-12 bg-blue-600 rounded-full shadow-2xl flex items-center justify-center text-white text-xl border-2 border-white/20 hover:scale-105 transition">
+            <i class="fa-solid fa-comments"></i>
+        </button>
+
+        <!-- LIVE CHAT MODAL -->
+        <div id="liveChatModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-2">
+            <div class="vip-card border border-slate-800 w-full max-w-sm rounded-2xl p-4 space-y-3 shadow-2xl">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-3 h-3 bg-greenWin rounded-full animate-pulse"></div>
+                        <h3 class="text-sm font-extrabold text-white">Live Support Chat</h3>
+                    </div>
+                    <button onclick="toggleLiveChat()" class="text-textMuted hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
+                <div class="bg-darkBg p-3 rounded-xl border border-slate-800 text-xs space-y-2 h-40 overflow-y-auto">
+                    <div class="bg-blue-600/20 text-blue-300 p-2 rounded-lg border border-blue-500/30">
+                        👋 Salam! Cash Plus Support mein khush amdeed. Aapka koi sawal ho toh foran WhatsApp par rabta karein!
+                    </div>
+                </div>
+                <div>
+                    <input type="text" id="chatUserName" placeholder="Apna Naam darj karein..." class="w-full bg-darkBg border border-slate-800 rounded-xl p-2.5 text-xs text-white mb-2 focus:outline-none focus:border-cyan-400">
+                    <textarea id="chatUserMsg" placeholder="Apna message yahan type karein..." rows="2" class="w-full bg-darkBg border border-slate-800 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-cyan-400"></textarea>
+                </div>
+                <button onclick="sendChatToWhatsApp()" class="w-full py-3 rounded-xl bg-green-600 text-white font-extrabold text-xs flex items-center justify-center space-x-2 shadow-lg">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span>WhatsApp Par Foran Rabta Karein</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- BOTTOM NAV -->
+        <nav id="mainBottomNav" class="hidden fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-darkBg/95 backdrop-blur-lg border-t border-slate-800 px-2 py-2 flex justify-around items-center z-40">
+            <button onclick="switchTab('home')" id="nav-home" class="flex flex-col items-center text-cyan-400"><i class="fa-solid fa-house text-base"></i><span class="text-[9px] font-bold">Home</span></button>
+            <button onclick="switchTab('fund')" id="nav-fund" class="flex flex-col items-center text-textMuted"><i class="fa-solid fa-chart-column text-base"></i><span class="text-[9px] font-bold">Orders</span></button>
+            <button onclick="switchTab('vip')" id="nav-vip" class="flex flex-col items-center text-textMuted"><div class="w-10 h-10 rounded-full gold-btn flex items-center justify-center text-black text-lg font-bold shadow-lg -mt-4 border-2 border-darkBg"><i class="fa-solid fa-gem"></i></div><span class="text-[9px] font-bold text-cyan-400">VIP</span></button>
+            <button onclick="switchTab('team')" id="nav-team" class="flex flex-col items-center text-textMuted"><i class="fa-solid fa-user-group text-base"></i><span class="text-[9px] font-bold">Team</span></button>
+            <button onclick="switchTab('user')" id="nav-user" class="flex flex-col items-center text-textMuted"><i class="fa-solid fa-user text-base"></i><span class="text-[9px] font-bold">User</span></button>
+        </nav>
+
+        <!-- RECHARGE MODAL -->
+        <div id="rechargeModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="vip-card border border-slate-800 w-full max-w-xs rounded-2xl p-4 space-y-3">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                    <h3 class="text-sm font-extrabold text-cyan-400">Deposit Funds</h3>
+                    <button onclick="closeModal('recharge')" class="text-textMuted"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-white block mb-1.5">Payment Method Chunein</label>
+                    <div class="space-y-2 text-xs">
+                        <label onclick="selectPaymentMethod('JazzCash')" class="flex items-center justify-between p-3 bg-darkBg border border-cyan-400/40 rounded-xl cursor-pointer hover:bg-black">
+                            <div class="flex items-center space-x-2">
+                                <i class="fa-solid fa-wallet text-cyan-400 text-base"></i>
+                                <span class="font-bold text-white">JazzCash (Kulsoom Bibi)</span>
+                            </div>
+                            <span class="text-[10px] text-greenWin font-bold">Available</span>
+                        </label>
+                        <label onclick="selectPaymentMethod('Easypaisa')" class="flex items-center justify-between p-3 bg-darkBg border border-slate-800 rounded-xl cursor-pointer hover:bg-black">
+                            <div class="flex items-center space-x-2">
+                                <i class="fa-solid fa-wallet text-greenWin text-base"></i>
+                                <span class="font-bold text-white">Easypaisa (Kulsoom Bibi)</span>
+                            </div>
+                            <span class="text-[10px] text-greenWin font-bold">Available</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="selectedMethodBox" class="bg-darkBg p-3 rounded-xl border border-cyan-400/30 text-xs space-y-1 font-mono">
+                    <div class="text-[10px] text-textMuted">Selected Account (<span id="activePayName">JazzCash</span>):</div>
+                    <div class="text-cyan-400 font-bold text-sm" id="activePayNumber">03062165409</div>
+                </div>
+
+                <div>
+                    <label class="text-xs font-bold text-white block mb-1">Raqam (Rs)</label>
+                    <input type="number" id="rechargeAmountInput" value="300" class="w-full bg-darkBg border border-slate-800 rounded-xl p-2.5 text-xs text-white font-mono">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-white block mb-1">Transaction TID Code</label>
+                    <input type="text" id="rechargeTidInput" placeholder="TID Code" class="w-full bg-darkBg border border-slate-800 rounded-xl p-2 text-xs text-white">
+                </div>
+                <button onclick="submitRechargeRequest()" class="w-full py-3 rounded-xl gold-btn font-extrabold text-xs">Deposit Request Bhejein</button>
+            </div>
+        </div>
+
+        <!-- WITHDRAW MODAL -->
+        <div id="withdrawModal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="vip-card border border-slate-800 w-full max-w-xs rounded-2xl p-4 space-y-3">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                    <h3 class="text-sm font-extrabold text-cyan-400">Withdraw Earnings (Min Rs 50)</h3>
+                    <button onclick="closeModal('withdraw')" class="text-textMuted"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-white block mb-1">Payment Method Chunein</label>
+                    <select id="withdrawMethodSelect" class="w-full bg-darkBg border border-slate-800 rounded-xl p-2.5 text-xs text-cyan-400 font-bold focus:outline-none">
+                        <option value="JazzCash">JazzCash</option>
+                        <option value="Easypaisa">Easypaisa</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-white block mb-1">Account Number (11 Digits)</label>
+                    <input type="text" id="withdrawAccInput" placeholder="0300XXXXXXX" maxlength="11" class="w-full bg-darkBg border border-slate-800 rounded-xl p-2 text-xs text-white font-mono">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-white block mb-1">Amount (Min Rs 50)</label>
+                    <input type="number" id="withdrawAmountInput" value="50" class="w-full bg-darkBg border border-slate-800 rounded-xl p-2 text-xs text-white font-mono">
+                </div>
+                <button onclick="submitWithdrawRequest()" class="w-full py-3 rounded-xl gold-btn font-extrabold text-xs">Withdraw Submit Karein</button>
+            </div>
+        </div>
+
+        <!-- SECRET ADMIN PANEL MODAL -->
+        <div id="adminModal" class="hidden fixed inset-0 bg-black/95 backdrop-blur-md z-50 flex items-center justify-center p-4">
+            <div class="vip-card border-2 border-cyan-400 w-full max-w-sm rounded-2xl p-4 space-y-4 max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                    <h3 class="text-sm font-black text-cyan-400"><i class="fa-solid fa-user-shield"></i> Admin Control Panel</h3>
+                    <button onclick="closeAdminPanel()" class="text-textMuted"><i class="fa-solid fa-xmark text-lg"></i></button>
+                </div>
+                
+                <div>
+                    <h4 class="text-xs font-bold text-cyan-400 mb-2"><i class="fa-solid fa-users"></i> All Registered Users Database:</h4>
+                    <div id="adminUsersList" class="space-y-2 max-h-40 overflow-y-auto">
+                        <p class="text-[11px] text-textMuted">Koi user registered nahi hai.</p>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800">
+                    <h4 class="text-xs font-bold text-white mb-2">Pending Deposits:</h4>
+                    <div id="adminDepositList" class="space-y-2"><p class="text-[11px] text-textMuted">Koi deposit nahi hai.</p></div>
+                </div>
+                <div class="pt-3 border-t border-slate-800">
+                    <h4 class="text-xs font-bold text-white mb-2">Pending Withdrawals:</h4>
+                    <div id="adminWithdrawList" class="space-y-2"><p class="text-[11px] text-textMuted">Koi withdrawal nahi hai.</p></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FIREBASE REALTIME MODULE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue, update, remove, push } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBpGpCAqkkxk7-2SGRgNF3Yzb0L0oRArGc",
+            authDomain: "cashplus-a05af.firebaseapp.com",
+            projectId: "cashplus-a05af",
+            storageBucket: "cashplus-a05af.firebasestorage.app",
+            messagingSenderId: "24067721136",
+            appId: "1:24067721136:web:60c2571763dbb029f2b875",
+            measurementId: "G-X78Q08HEFE"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        window.saveRequestToCloud = function(reqId, reqData) {
+            set(ref(db, 'requests/' + reqId), reqData);
+        };
+
+        window.saveTransactionToCloud = function(txData) {
+            push(ref(db, 'transactions/'), txData);
+        };
+
+        window.listenAllRequests = function(callback) {
+            onValue(ref(db, 'requests/'), (snapshot) => {
+                callback(snapshot.val());
+            });
+        };
+
+        window.listenAllTransactions = function(callback) {
+            onValue(ref(db, 'transactions/'), (snapshot) => {
+                callback(snapshot.val());
+            });
+        };
+
+        window.updateRequestStatus = function(reqId, newStatus) {
+            update(ref(db, 'requests/' + reqId), { status: newStatus });
+        };
+
+        window.deleteRequest = function(reqId) {
+            remove(ref(db, 'requests/' + reqId));
+        };
+    </script>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        let registeredUsers = JSON.parse(localStorage.getItem('cashplus_users')) || {};
+        let userMetaData = JSON.parse(localStorage.getItem('cashplus_meta')) || {};
+        let loggedInUser = null;
+        let isPhoneMasked = false;
+
+        let walletBalance = 0;
+        let activeVIP = localStorage.getItem('cashplus_active_vip') || null;
+        let dailyTaskDone = parseInt(localStorage.getItem('cashplus_tasks_done')) || 0;
+        let maxDailyTasks = parseInt(localStorage.getItem('cashplus_max_tasks')) || 1;
+        let taskCommission = parseFloat(localStorage.getItem('cashplus_commission')) || 10;
+
+        let giftCodesDB = {
+            "CASH786": 20, "PLUS999": 20, "VIP111": 20, "BONUS22": 20, "EARN555": 20,
+            "GIFT123": 10, "FAST456": 11, "GOLD789": 12, "PKR321": 13, "CASH654": 14,
+            "SAFE987": 15, "TASK111": 16, "DAILY222": 17, "PRO333": 18, "TOP444": 10,
+            "WIN555": 12, "SUPER66": 14, "MEGA77": 15, "STAR88": 16, "LUCKY99": 17
+        };
+        let usedGiftCodes = JSON.parse(localStorage.getItem('cashplus_used_codes')) || [];
+        let currentDepositMethod = 'JazzCash';
+
+        function saveUserState() {
+            if(activeVIP) {
+                localStorage.setItem('cashplus_active_vip', activeVIP);
+            }
+            localStorage.setItem('cashplus_tasks_done', dailyTaskDone);
+            localStorage.setItem('cashplus_max_tasks', maxDailyTasks);
+            localStorage.setItem('cashplus_commission', taskCommission);
+        }
+
+        function showScreen(screen) {
+            document.getElementById('screen-register').classList.add('hidden');
+            document.getElementById('screen-login').classList.add('hidden');
+            document.getElementById('mainHeader').classList.add('hidden');
+            document.getElementById('mainAppContent').classList.add('hidden');
+            document.getElementById('mainBottomNav').classList.add('hidden');
+
+            if (screen === 'register') document.getElementById('screen-register').classList.remove('hidden');
+            if (screen === 'login') document.getElementById('screen-login').classList.remove('hidden');
+            if (screen === 'app') {
+                document.getElementById('mainHeader').classList.remove('hidden');
+                document.getElementById('mainAppContent').classList.remove('hidden');
+                document.getElementById('mainBottomNav').classList.remove('hidden');
+                switchTab('home');
+                startLiveOrdersListener();
+                startLiveTransactionsListener();
+            }
+        }
+
+        function switchTab(tabName) {
+            ['home', 'fund', 'vip', 'team', 'user'].forEach(t => document.getElementById(`tab-${t}`).classList.add('hidden'));
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            if (tabName === 'home') updateWalletUI();
+            if (tabName === 'fund') renderHistoryList();
+            if (tabName === 'team') loadInviteLink();
+            if (tabName === 'user') loadUserProfileData();
+        }
+
+        function loadInviteLink() {
+            let currentUrl = window.location.href.split('?')[0];
+            if(currentUrl.startsWith('file://')) {
+                currentUrl = "https://cashplus-gilt.vercel.app/";
+            }
+            const inviteLink = currentUrl + (loggedInUser ? `?invite=${loggedInUser}` : '');
+            document.getElementById('userInviteLinkInput').value = inviteLink;
+        }
+
+        function copyInviteLink() {
+            const input = document.getElementById('userInviteLinkInput');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value);
+            showToast("Invite link copy ho gaya!");
+        }
+
+        function handleRegister() {
+            const phone = document.getElementById('regPhone').value.trim();
+            const pass = document.getElementById('regPass').value.trim();
+            const confirmPass = document.getElementById('regConfirmPass').value.trim();
+
+            if (phone.length !== 11) {
+                showToast("Mobile number lazmi 11 digits ka hona chahiye!");
+                return;
+            }
+            if (pass.length < 8) {
+                showToast("Password kam az kam 8 characters ka hona chahiye!");
+                return;
+            }
+            if (pass !== confirmPass) {
+                showToast("Dono passwords aapas mein nahi milte!");
+                return;
+            }
+
+            if (registeredUsers[phone]) {
+                showToast("Yeh number pehle se registered hai! Baraye meharbani Login karein.");
+                showScreen('login');
+                return;
+            }
+
+            const nowStr = new Date().toLocaleString();
+            registeredUsers[phone] = pass;
+            userMetaData[phone] = { regDate: nowStr };
+
+            localStorage.setItem('cashplus_users', JSON.stringify(registeredUsers));
+            localStorage.setItem('cashplus_meta', JSON.stringify(userMetaData));
+            
+            showToast("Account kamyabi se ban gaya! Ab login karein.");
+            showScreen('login');
+        }
+
+        function handleLogin() {
+            const phone = document.getElementById('loginPhone').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+
+            if (phone.length !== 11) {
+                showToast("Sahi 11 digits ka mobile number darj karein!");
+                return;
+            }
+
+            if ((phone === "03131032801" && pass === "12345678") || (registeredUsers[phone] && registeredUsers[phone] === pass)) {
+                loggedInUser = phone;
+                if(!registeredUsers[phone]) {
+                    registeredUsers[phone] = pass;
+                    userMetaData[phone] = { regDate: new Date().toLocaleString() };
+                }
+                showToast("Login kamyab!");
+                loadUserProfileData();
+                showScreen('app');
+            } else {
+                showToast("Ghalat Number ya Password!");
+            }
+        }
+
+        function loadUserProfileData() {
+            if(!loggedInUser) return;
+            document.getElementById('userProfilePhone').innerText = loggedInUser;
+            updatePhoneDisplay();
+            document.getElementById('headerUserPhone').innerText = loggedInUser.substring(0,3) + "***" + loggedInUser.substring(loggedInUser.length-3);
+            
+            const meta = userMetaData[loggedInUser] || { regDate: new Date().toLocaleString() };
+            document.getElementById('profileRegDate').innerText = meta.regDate;
+        }
+
+        function toggleMaskPhone() {
+            isPhoneMasked = !isPhoneMasked;
+            updatePhoneDisplay();
+        }
+
+        function updatePhoneDisplay() {
+            if(!loggedInUser) return;
+            const displayEl = document.getElementById('profilePhoneDisplay');
+            const eyeEl = document.getElementById('eyeIcon');
+            if(isPhoneMasked) {
+                displayEl.innerText = loggedInUser.substring(0,3) + "*******" + loggedInUser.substring(10);
+                eyeEl.className = "fa-solid fa-eye";
+            } else {
+                displayEl.innerText = loggedInUser;
+                eyeEl.className = "fa-solid fa-eye-slash";
+            }
+        }
+
+        function changePassword() {
+            const oldPass = document.getElementById('oldPassInput').value.trim();
+            const newPass = document.getElementById('newPassInput').value.trim();
+
+            if(!oldPass || !newPass) {
+                showToast("Purana aur naya password dono likhein!");
+                return;
+            }
+            if(registeredUsers[loggedInUser] !== oldPass) {
+                showToast("Purana password ghalat hai!");
+                return;
+            }
+            if(newPass.length < 8) {
+                showToast("Naya password kam az kam 8 characters ka hona chahiye!");
+                return;
+            }
+
+            registeredUsers[loggedInUser] = newPass;
+            localStorage.setItem('cashplus_users', JSON.stringify(registeredUsers));
+            document.getElementById('oldPassInput').value = "";
+            document.getElementById('newPassInput').value = "";
+            showToast("Password kamyabi se tabdeel ho gaya!");
+        }
+
+        function openWhitePaper() { document.getElementById('whitePaperModal').classList.remove('hidden'); }
+        function closeWhitePaper() { document.getElementById('whitePaperModal').classList.add('hidden'); }
+
+        function openGiftBox() { document.getElementById('giftBoxModal').classList.remove('hidden'); }
+        function closeGiftBoxModal() { document.getElementById('giftBoxModal').classList.add('hidden'); }
+
+        function claimGiftCode() {
+            const code = document.getElementById('giftCodeInput').value.trim().toUpperCase();
+            if(!code) {
+                showToast("Baraye meharbani gift code darj karein!");
+                return;
+            }
+            if(usedGiftCodes.includes(code)) {
+                showToast("Yeh code invalid ya pehle hi use ho chuka hai!");
+                return;
+            }
+            if(!giftCodesDB[code]) {
+                showToast("Ghalat Code! Yeh code mojood nahi hai.");
+                return;
+            }
+
+            const reward = giftCodesDB[code];
+            usedGiftCodes.push(code);
+            localStorage.setItem('cashplus_used_codes', JSON.stringify(usedGiftCodes));
+
+            if(window.saveTransactionToCloud) {
+                window.saveTransactionToCloud({
+                    phone: loggedInUser,
+                    type: 'Gift Bonus',
+                    amount: reward,
+                    action: 'add',
+                    time: new Date().toLocaleTimeString()
+                });
+            }
+
+            closeGiftBoxModal();
+            document.getElementById('giftCodeInput').value = "";
+            showToast(`Mubarak ho! Rs ${reward} cash add ho gaye.`);
+        }
+
+        function openInviteBonusModal() { document.getElementById('inviteBonusModal').classList.remove('hidden'); }
+        function closeInviteBonusModal() { document.getElementById('inviteBonusModal').classList.add('hidden'); }
+
+        function completePlatformTask(platform) {
+            let currentVIP = localStorage.getItem('cashplus_active_vip') || activeVIP;
+            if (!currentVIP || currentVIP === '') {
+                showToast("⚠️ Task karne ke liye pehle VIP Level buy karein!");
+                openModal('recharge');
+                return;
+            }
+            if (dailyTaskDone >= maxDailyTasks) {
+                showToast("Aaj ka task mukammal ho chuka hai! Kal try karein.");
+                return;
+            }
+            dailyTaskDone++;
+            saveUserState();
+
+            if(window.saveTransactionToCloud) {
+                window.saveTransactionToCloud({
+                    phone: loggedInUser,
+                    type: platform + ' Task Reward',
+                    amount: taskCommission,
+                    action: 'add',
+                    time: new Date().toLocaleTimeString()
+                });
+            }
+
+            showToast(`${platform} Task Complete! +Rs ${taskCommission} add ho gaye.`);
+        }
+
+        function logoutUser() {
+            loggedInUser = null;
+            showScreen('login');
+        }
+
+        function promptAdminLogin() {
+            const pass = prompt("Admin Secret Password darj karein:");
+            if (pass === "hasnain786" || pass === "786") {
+                document.getElementById('adminModal').classList.remove('hidden');
+                loadAdminRequests();
+            } else if (pass !== null) {
+                showToast("Ghalat Admin Password!");
+            }
+        }
+
+        function closeAdminPanel() { document.getElementById('adminModal').classList.add('hidden'); }
+
+        function toggleLiveChat() {
+            document.getElementById('liveChatModal').classList.toggle('hidden');
+        }
+
+        function sendChatToWhatsApp() {
+            const name = document.getElementById('chatUserName').value.trim();
+            const msg = document.getElementById('chatUserMsg').value.trim();
+            if(!name || !msg) { showToast("Apna naam aur message likhein!"); return; }
+            
+            const waNumber = "923131032801"; 
+            const text = encodeURIComponent(`*Cash Plus Support*\nName: ${name}\nMessage: ${msg}`);
+            window.open(`https://api.whatsapp.com/send?phone=${waNumber}&text=${text}`, '_blank');
+            toggleLiveChat();
+        }
+
+        function selectPaymentMethod(method) {
+            currentDepositMethod = method;
+            document.getElementById('activePayName').innerText = method;
+            if(method === 'JazzCash') {
+                document.getElementById('activePayNumber').innerText = "03062165409 (Kulsoom Bibi)";
+            } else {
+                document.getElementById('activePayNumber').innerText = "03272962847 (Kulsoom Bibi)";
+            }
+        }
+
+        function submitRechargeRequest() {
+            const amount = parseFloat(document.getElementById('rechargeAmountInput').value);
+            const tid = document.getElementById('rechargeTidInput').value.trim();
+            if (!amount || !tid) { showToast("Raqam aur TID darj karein!"); return; }
+            
+            const reqId = "DEP_" + Date.now();
+            const reqData = { id: reqId, phone: loggedInUser, type: 'Deposit (' + currentDepositMethod + ')', amount: amount, tid: tid, status: 'Pending', time: new Date().toLocaleTimeString() };
+            if(window.saveRequestToCloud) window.saveRequestToCloud(reqId, reqData);
+
+            closeModal('recharge');
+            showToast("Deposit Request Admin ko bhej di gayi hai!");
+        }
+
+        function buyVIP(level, price, dailyIncome, tasksCount) {
+            if (walletBalance < price) {
+                showToast(`VIP ${level} ke liye Rs ${price} zaroori hain! Pehle deposit approve karwayein.`);
+                openModal('recharge');
+                return;
+            }
+            activeVIP = level;
+            maxDailyTasks = tasksCount;
+            taskCommission = dailyIncome;
+            dailyTaskDone = 0;
+            saveUserState();
+
+            if(window.saveTransactionToCloud) {
+                window.saveTransactionToCloud({
+                    phone: loggedInUser,
+                    type: 'VIP ' + level + ' Purchase',
+                    amount: price,
+                    action: 'subtract',
+                    time: new Date().toLocaleTimeString()
+                });
+            }
+
+            document.getElementById('userLevelBadge').innerText = `VIP ${level}`;
+            document.getElementById('vipCurrentTitle').innerText = `Current Status: VIP ${level} Active`;
+            document.getElementById('profileLevelText').innerText = `VIP ${level} Member`;
+            
+            showToast(`Mubarak Ho! VIP ${level} kharid liya gaya hai.`);
+        }
+
+        function submitWithdrawRequest() {
+            const method = document.getElementById('withdrawMethodSelect').value;
+            const acc = document.getElementById('withdrawAccInput').value.trim();
+            const amount = parseFloat(document.getElementById('withdrawAmountInput').value);
+
+            if (acc.length !== 11) { showToast("Account number lazmi 11 digits ka hona chahiye!"); return; }
+            if (amount < 50) { showToast("Minimum withdrawal limit Rs 50 hai!"); return; }
+            if (amount > walletBalance) { showToast("Wallet mein kafi balance nahi hai!"); return; }
+
+            if(window.saveTransactionToCloud) {
+                window.saveTransactionToCloud({
+                    phone: loggedInUser,
+                    type: 'Withdrawal (' + method + ')',
+                    amount: amount,
+                    action: 'subtract',
+                    time: new Date().toLocaleTimeString()
+                });
+            }
+
+            const reqId = "WITH_" + Date.now();
+            const reqData = { id: reqId, phone: loggedInUser, type: 'Withdrawal (' + method + ')', amount: amount, acc: acc, status: 'Pending', time: new Date().toLocaleTimeString() };
+            if(window.saveRequestToCloud) window.saveRequestToCloud(reqId, reqData);
+
+            closeModal('withdraw');
+            showToast("Withdrawal Request Submit Ho Gayi!");
+        }
+
+        function startLiveOrdersListener() {
+            if(window.listenAllRequests) {
+                window.listenAllRequests((data) => {
+                    const listContainer = document.getElementById('auditOrdersList');
+                    if(listContainer) listContainer.innerHTML = '';
+                    if(!data) {
+                        if(listContainer) listContainer.innerHTML = `<div class="p-6 text-center text-xs text-textMuted vip-card rounded-xl">Koi history record nahi hai.</div>`;
+                        return;
+                    }
+                    
+                    Object.keys(data).forEach(key => {
+                        const item = data[key];
+                        if(item.phone === loggedInUser) {
+                            if(listContainer) {
+                                let color = item.status === 'Approved' || item.status === 'Received' ? 'text-greenWin' : (item.status === 'Rejected' ? 'text-redLoss' : 'text-yellow-400');
+                                listContainer.innerHTML += `
+                                    <div class="vip-card p-3 rounded-xl flex justify-between items-center text-xs mb-2">
+                                        <div><span class="font-bold text-white block">${item.type} (Rs ${item.amount})</span><span class="text-[10px] text-textMuted">${item.time || ''}</span></div>
+                                        <span class="font-black ${color}">${item.status}</span>
+                                    </div>`;
+                            }
+                        }
+                    });
+                });
+            }
+        }
+
+        function startLiveTransactionsListener() {
+            if(window.listenAllTransactions) {
+                window.listenAllTransactions((data) => {
+                    if(!data) {
+                        walletBalance = 0;
+                        updateWalletUI();
+                        return;
+                    }
+                    
+                    let balance = 0;
+                    Object.keys(data).forEach(key => {
+                        const tx = data[key];
+                        if(tx.phone === loggedInUser) {
+                            if(tx.action === 'add') {
+                                balance += Number(tx.amount);
+                            } else if(tx.action === 'subtract') {
+                                balance -= Number(tx.amount);
+                            }
+                        }
+                    });
+                    walletBalance = balance > 0 ? balance : 0;
+                    updateWalletUI();
+                });
+            }
+        }
+
+        function loadAdminRequests() {
+            const usersContainer = document.getElementById('adminUsersList');
+            const allUsers = JSON.parse(localStorage.getItem('cashplus_users')) || {};
+            const allMeta = JSON.parse(localStorage.getItem('cashplus_meta')) || {};
+            
+            usersContainer.innerHTML = "";
+            const userKeys = Object.keys(allUsers);
+            if (userKeys.length === 0) {
+                usersContainer.innerHTML = `<p class="text-[11px] text-textMuted">Koi user registered nahi hai.</p>`;
+            } else {
+                userKeys.forEach(phone => {
+                    const pass = allUsers[phone];
+                    const regDate = allMeta[phone]?.regDate || 'N/A';
+                    usersContainer.innerHTML += `
+                        <div class="bg-darkBg p-2 rounded-lg border border-slate-800 text-[11px] space-y-0.5">
+                            <div class="flex justify-between"><span class="text-cyan-400 font-bold">Phone: ${phone}</span><span class="text-slate-400">Pass: ${pass}</span></div>
+                            <div class="text-[9px] text-slate-500">Reg: ${regDate}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            if(window.listenAllRequests) {
+                window.listenAllRequests((data) => {
+                    const depContainer = document.getElementById('adminDepositList');
+                    const witContainer = document.getElementById('adminWithdrawList');
+                    depContainer.innerHTML = '';
+                    witContainer.innerHTML = '';
+
+                    if(!data) {
+                        depContainer.innerHTML = `<div class="text-[11px] text-textMuted">Koi deposit nahi hai.</div>`;
+                        witContainer.innerHTML = `<div class="text-[11px] text-textMuted">Koi withdrawal nahi hai.</div>`;
+                        return;
+                    }
+
+                    let hasDep = false;
+                    let hasWit = false;
+
+                    Object.keys(data).forEach(key => {
+                        const item = data[key];
+                        if(item.type && item.type.includes('Deposit')) {
+                            hasDep = true;
+                            let actionBtn = item.status === 'Approved' ? `<span class="text-greenWin font-bold text-[10px]">Approved</span>` : `
+                                <button onclick="approveDepositAndCredit('${item.id}', '${item.phone}', ${item.amount})" class="bg-greenWin text-black font-bold px-2 py-1 rounded text-[10px]">Accept</button>
+                                <button onclick="window.updateRequestStatus('${item.id}', 'Rejected')" class="bg-red-600 text-white font-bold px-2 py-1 rounded text-[10px]">Reject</button>`;
+                            
+                            depContainer.innerHTML += `
+                                <div class="bg-darkBg p-2 rounded-lg border border-slate-800 flex justify-between items-center text-xs">
+                                    <div><span class="text-cyan-400 font-bold">${item.phone}</span><span class="text-white block">${item.type}: Rs ${item.amount}</span><span class="text-[10px] text-yellow-400">Status: ${item.status}</span></div>
+                                    <div class="flex space-x-1 items-center">
+                                        ${actionBtn}
+                                        <button onclick="window.deleteRequest('${item.id}')" class="bg-slate-700 text-white font-bold px-2 py-1 rounded text-[10px]">Delete</button>
+                                    </div>
+                                </div>`;
+                        } else if(item.type && item.type.includes('Withdrawal')) {
+                            hasWit = true;
+                            let actionBtn = item.status === 'Received' ? `<span class="text-greenWin font-bold text-[10px]">Received</span>` : `
+                                <button onclick="window.updateRequestStatus('${item.id}', 'Received')" class="bg-greenWin text-black font-bold px-2 py-1 rounded text-[10px]">Accept</button>
+                                <button onclick="window.updateRequestStatus('${item.id}', 'Rejected')" class="bg-red-600 text-white font-bold px-2 py-1 rounded text-[10px]">Reject</button>`;
+                            
+                            witContainer.innerHTML += `
+                                <div class="bg-darkBg p-2 rounded-lg border border-slate-800 flex justify-between items-center text-xs">
+                                    <div><span class="text-cyan-400 font-bold">${item.phone}</span><span class="text-white block">${item.type}: Rs ${item.amount}</span><span class="text-[10px] text-yellow-400">Status: ${item.status}</span></div>
+                                    <div class="flex space-x-1 items-center">
+                                        ${actionBtn}
+                                        <button onclick="window.deleteRequest('${item.id}')" class="bg-slate-700 text-white font-bold px-2 py-1 rounded text-[10px]">Delete</button>
+                                    </div>
+                                </div>`;
+                        }
+                    });
+
+                    if(!hasDep) depContainer.innerHTML = `<div class="text-[11px] text-textMuted">Koi deposit nahi hai.</div>`;
+                    if(!hasWit) witContainer.innerHTML = `<div class="text-[11px] text-textMuted">Koi withdrawal nahi hai.</div>`;
+                });
+            }
+        }
+
+        function approveDepositAndCredit(id, phone, amount) {
+            window.updateRequestStatus(id, 'Approved');
+            if(window.saveTransactionToCloud) {
+                window.saveTransactionToCloud({
+                    phone: phone,
+                    type: 'Deposit Approved',
+                    amount: amount,
+                    action: 'add',
+                    time: new Date().toLocaleTimeString()
+                });
+            }
+            showToast("Deposit Approve Ho Gaya aur Balance Add Kar Diya Gaya!");
+        }
+
+        function renderHistoryList() {
+            startLiveOrdersListener();
+        }
+
+        function openModal(type) { document.getElementById(`${type}Modal`).classList.remove('hidden'); }
+        function closeModal(type) { document.getElementById(`${type}Modal`).classList.add('hidden'); }
+        
+        function updateWalletUI() {
+            let savedVIP = localStorage.getItem('cashplus_active_vip') || activeVIP;
+            document.getElementById('homeWalletBalance').innerText = walletBalance;
+            document.getElementById('dailyTaskCounter').innerText = `${dailyTaskDone} / ${maxDailyTasks} Mukammal`;
+            if(savedVIP) {
+                document.getElementById('userLevelBadge').innerText = `VIP ${savedVIP}`;
+                document.getElementById('vipCurrentTitle').innerText = `Current Status: VIP ${savedVIP} Active`;
+                document.getElementById('profileLevelText').innerText = `VIP ${savedVIP} Member`;
+                document.getElementById('taskRewardDesc1').innerText = `Reward: Rs ${taskCommission} Per Task`;
+                document.getElementById('taskRewardDesc2').innerText = `Reward: Rs ${taskCommission} Per Task`;
+                document.getElementById('taskRewardDesc3').innerText = `Reward: Rs ${taskCommission} Per Task`;
+            }
+        }
+
+        function showToast(msg) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = "bg-cyan-400 text-black text-xs font-bold px-4 py-3 rounded-xl shadow-2xl text-center mb-2 toast-anim border border-black/20";
+            toast.innerText = msg;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        window.onload = function() {
+            const lastTaskDate = localStorage.getItem('cashplus_last_task_date');
+            const todayDate = new Date().toDateString();
+
+            if (lastTaskDate !== todayDate) {
+                dailyTaskDone = 0;
+                localStorage.setItem('cashplus_tasks_done', 0);
+                localStorage.setItem('cashplus_last_task_date', todayDate);
+            }
+
+            let savedVIP = localStorage.getItem('cashplus_active_vip') || activeVIP;
+            if (savedVIP && savedVIP !== '') {
+                activeVIP = savedVIP;
+                document.getElementById('userLevelBadge').innerText = `VIP ${savedVIP}`;
+                document.getElementById('vipCurrentTitle').innerText = `Current Status: VIP ${savedVIP} Active`;
+                document.getElementById('profileLevelText').innerText = `VIP ${savedVIP} Member`;
+            }
+
+            updateWalletUI();
+        };
+    </script>
+</body>
+</html>
